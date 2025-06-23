@@ -24,5 +24,3 @@ Cílem hry je co nejrychleji kliknout na červený míček, který se náhodně 
 Tento projekt je volně k použití a úpravám.
 
 ---
-
-*Text README byl vygenerován pomocí AI ChatGPT.*
