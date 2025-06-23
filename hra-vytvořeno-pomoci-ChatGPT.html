@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Uchop míček</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 30px;
+  }
+  #gameArea {
+    position: relative;
+    width: 400px;
+    height: 300px;
+    margin: 20px auto;
+    border: 2px solid #333;
+    background-color: #f0f0f0;
+  }
+  #ball {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: #ff4d4d;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  #score {
+    font-size: 20px;
+  }
+  #time {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  button {
+    padding: 8px 15px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h1>Uchop míček</h1>
+<p>Klikej na červený míček co nejrychleji, než vyprší čas!</p>
+
+<div id="gameArea">
+  <div id="ball"></div>
+</div>
+
+<div id="score">Skóre: 0</div>
+<div id="time">Čas: 30</div>
+
+<button id="startBtn">Start hry</button>
+
+<script>
+  const ball = document.getElementById('ball');
+  const gameArea = document.getElementById('gameArea');
+  const scoreDisplay = document.getElementById('score');
+  const timeDisplay = document.getElementById('time');
+  const startBtn = document.getElementById('startBtn');
+
+  let score = 0;
+  let time = 30;
+  let gameInterval;
+  let countdownInterval;
+
+  function moveBall() {
+    const maxX = gameArea.clientWidth - ball.clientWidth;
+    const maxY = gameArea.clientHeight - ball.clientHeight;
+    const x = Math.floor(Math.random() * maxX);
+    const y = Math.floor(Math.random() * maxY);
+    ball.style.left = x + 'px';
+    ball.style.top = y + 'px';
+  }
+
+  function startGame() {
+    score = 0;
+    time = 30;
+    scoreDisplay.textContent = 'Skóre: ' + score;
+    timeDisplay.textContent = 'Čas: ' + time;
+    ball.style.display = 'block';
+    startBtn.disabled = true;
+
+    moveBall();
+    gameInterval = setInterval(moveBall, 1000);
+
+    countdownInterval = setInterval(() => {
+      time--;
+      timeDisplay.textContent = 'Čas: ' + time;
+      if (time <= 0) {
+        endGame();
+      }
+    }, 1000);
+  }
+
+  function endGame() {
+    clearInterval(gameInterval);
+    clearInterval(countdownInterval);
+    ball.style.display = 'none';
+    startBtn.disabled = false;
+    alert('Konec hry! Tvoje skóre je: ' + score);
+  }
+
+  ball.addEventListener('click', () => {
+    score++;
+    scoreDisplay.textContent = 'Skóre: ' + score;
+    moveBall();
+  });
+
+  startBtn.addEventListener('click', startGame);
+
+  // Na začátku míček nezobrazovat
+  ball.style.display = 'none';
+</script>
+
+</body>
+</html>
